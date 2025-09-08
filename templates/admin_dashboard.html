@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid-2">
+  <a class="card link" href="{{ url_for('main.admin_users') }}">
+    <h2>Manage Users</h2><p>Modify roles, deactivate/activate, reset passwords.</p>
+  </a>
+  <a class="card link" href="{{ url_for('main.admin_audit') }}">
+    <h2>Audit Log</h2><p>Review recent security events.</p>
+  </a>
+</div>
+{% endblock %}

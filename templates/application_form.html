@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>New Application</h2>
+  <form method="post" class="form-grid">
+    {{ form.csrf_token }}
+    <label>Full Name</label>{{ form.full_name(class_="inp") }}
+    <label>National ID</label>{{ form.national_id(class_="inp") }}
+    <label>Birth Date (yyyy-mm-dd)</label>{{ form.birth_date(class_="inp", placeholder="yyyy-mm-dd") }}
+    <label>Address</label>{{ form.address(class_="inp") }}
+    <label>Passport Type</label>{{ form.passport_type(class_="inp") }}
+    <div></div><button class="btn-primary">{{ form.submit.label.text }}</button>
+  </form>
+</div>
+{% endblock %}

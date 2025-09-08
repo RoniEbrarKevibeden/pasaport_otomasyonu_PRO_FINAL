@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Users</h2>
+  <table class="tbl">
+    <thead><tr><th>#</th><th>Email</th><th>Role</th><th>Active</th><th>Last Login</th><th>Change Role</th></tr></thead>
+    <tbody>
+    {% for u in users %}
+      <tr>
+        <td>{{ u.id }}</td><td>{{ u.email }}</td><td>{{ u.role }}</td>
+        <td>{{ 'Yes' if u.active else 'No' }}</td><td>{{ u.last_login_at or '-' }}</td>
+        <td>
+          <form method="post" action="{{ url_for('main.admin_change_role', user_id=u.id) }}" class="row">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <select name="role" class="inp sm">
+              <option value="citizen" {{ 'selected' if u.role=='citizen' }}>citizen</option>
+              <option value="officer" {{ 'selected' if u.role=='officer' }}>officer</option>
+              <option value="admin" {{ 'selected' if u.role=='admin' }}>admin</option>
+            </select>
+            <button class="chip ok">Save</button>
+          </form>
+        </td>
+      </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

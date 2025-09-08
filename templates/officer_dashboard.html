@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Officer – Inspections</h2>
+  <table class="tbl">
+    <thead><tr><th>#</th><th>Citizen</th><th>Type</th><th>Status</th><th>Actions</th></tr></thead>
+    <tbody>
+      {% for a in apps %}
+      <tr>
+        <td>{{ a.id }}</td><td>{{ a.citizen_name }}</td><td>{{ a.passport_type }}</td>
+        <td><span class="badge {{ a.status|lower }}">{{ a.status }}</span></td>
+        <td class="actions">
+          <form method="post" action="{{ url_for('main.review', app_id=a.id, action='approve') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="chip ok">Approve</button></form>
+          <form method="post" action="{{ url_for('main.review', app_id=a.id, action='deny') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="chip danger">Deny</button></form>
+          <form method="post" action="{{ url_for('main.review', app_id=a.id, action='secondary') }}">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button class="chip warn">Secondary</button></form>
+        </td>
+      </tr>
+      {% else %}<tr><td colspan="5">No applications.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

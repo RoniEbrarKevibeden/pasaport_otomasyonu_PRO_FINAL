@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="grid-2">
+  <div class="card">
+    <h2>Start a New Application</h2>
+    <p>Apply for an Ordinary, Service or Special passport.</p>
+    <a class="btn-primary" href="{{ url_for('main.apply') }}">New Application</a>
+  </div>
+  <div class="card"><h2>Your Status</h2><p>You are logged in as Citizen.</p></div>
+</div>
+<div class="card">
+  <h3>Your Applications</h3>
+  <table class="tbl">
+    <thead><tr><th>#</th><th>Type</th><th>Status</th><th>Created</th></tr></thead>
+    <tbody>
+      {% for a in apps %}
+      <tr><td>{{ a.id }}</td><td>{{ a.passport_type }}</td><td><span class="badge {{ a.status|lower }}">{{ a.status }}</span></td><td>{{ a.created_at.strftime('%Y-%m-%d %H:%M') }}</td></tr>
+      {% else %}<tr><td colspan="4">No applications.</td></tr>{% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-card">
+  <div class="brand-inline"><span class="logo lg">🔷</span><span>Passport Automation</span></div>
+  <h1>Sign in</h1>
+  <form method="post">
+    {{ form.csrf_token }}
+    <label>Email</label>{{ form.email(class_="inp", placeholder="you@example.com") }}
+    <label>Password</label>{{ form.password(class_="inp", placeholder="********") }}
+    <label class="chk">{{ form.remember() }} Remember me</label>
+    <button class="btn-primary" type="submit">{{ form.submit.label.text }}</button>
+  </form>
+  <p style="margin-top:12px"><a href="{{ url_for('main.forgot_password') }}">Forgot your password?</a></p>
+  <div class="hr-or"><span>or</span></div>
+  <div class="demo-grid">
+    <form method="post">{{ form.csrf_token }}<input type="hidden" name="demo" value="citizen"><button class="btn-ghost">Sign in as Citizen (demo)</button></form>
+    <form method="post">{{ form.csrf_token }}<input type="hidden" name="demo" value="officer"><button class="btn-ghost">Sign in as Officer (demo)</button></form>
+    <form method="post">{{ form.csrf_token }}<input type="hidden" name="demo" value="admin"><button class="btn-ghost">Sign in as Admin (demo)</button></form>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h2>Audit Log</h2>
+  <table class="tbl">
+    <thead><tr><th>Time (UTC)</th><th>Actor</th><th>Action</th><th>Target</th><th>Meta</th></tr></thead>
+    <tbody>
+      {% for l in logs %}
+      <tr><td>{{ l.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</td><td>{{ l.actor }}</td><td>{{ l.action }}</td><td>{{ l.target or '' }}</td><td><code>{{ l.meta or '' }}</code></td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
