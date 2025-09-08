@@ -24,17 +24,10 @@ A Flask-based web application that digitizes internal passport applications and 
 
 
 
-\## Quick Start
+## Quick Start
 
 ```bash
-
 python -m venv .venv
-
-.\\.venv\\Scripts\\activate    # Windows
-
+.\.venv\Scripts\activate    # Windows
 pip install -r requirements.txt
-
-python app.py               # or: set FLASK\_APP=app.py \&\& flask run
-
-```
-
+python app.py               # or: set FLASK_APP=app.py && flask run
