@@ -1,5 +1,4 @@
-
-from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app, current_app
+from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 from flask_login import login_user, logout_user, current_user, login_required
 from itsdangerous import BadSignature, SignatureExpired
 from datetime import datetime
@@ -10,23 +9,24 @@ from .security import role_required
 from .email_utils import send_mail
 from werkzeug.security import check_password_hash, generate_password_hash
 
-# ---- Blueprint ÖNCE tanımlanmalı ----
+# ---- Blueprint ----
 bp = Blueprint("main", __name__)
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# Kök URL -> /login'e yönlendir
+# Root (/) -> /login
 @bp.get("/")
 def index():
     return redirect(url_for("main.login"))
 
-# Sadece /login ("/" bağlama!)
+# -------- Auth --------
 @bp.route("/login", methods=["GET", "POST"])
 def login():
     form = LoginForm()
-    # Demo giriş butonları için
+
+    # Demo quick-login buttons
     demo = request.form.get("demo")
     if demo in {"citizen", "officer", "admin"}:
         email = f"{demo}@example.com"
@@ -49,6 +49,7 @@ def login():
             db.session.commit()
             return redirect(url_for("main.dashboard"))
         flash("Invalid credentials.", "danger")
+
     return render_template("login.html", form=form)
 
 @bp.get("/logout")
@@ -60,6 +61,7 @@ def logout():
     flash("Logged out.")
     return redirect(url_for("main.login"))
 
+# -------- Dashboard --------
 @bp.get("/dashboard")
 @login_required
 def dashboard():
@@ -72,6 +74,7 @@ def dashboard():
     apps = Application.query.order_by(Application.created_at.desc()).all()
     return render_template("citizen_dashboard.html", apps=apps)
 
+# -------- Applications --------
 @bp.route("/apply", methods=["GET", "POST"])
 @login_required
 @role_required(Role.CITIZEN, Role.ADMIN)
@@ -108,7 +111,7 @@ def review(app_id, action):
     log_event(current_user.email, f"REVIEW_{action.upper()}", target="APPLICATION", meta={"id": a.id})
     return redirect(url_for("main.dashboard"))
 
-# ----- Admin -----
+# -------- Admin --------
 @bp.get("/admin/users")
 @login_required
 @role_required(Role.ADMIN)
@@ -152,7 +155,7 @@ def admin_audit():
     logs = AuditLog.query.order_by(AuditLog.created_at.desc()).limit(300).all()
     return render_template("admin_audit.html", logs=logs)
 
-# ----- Password reset -----
+# -------- Password reset --------
 @bp.get("/forgot")
 def forgot_password():
     if current_user.is_authenticated:
@@ -167,23 +170,31 @@ def forgot_password_post():
     form = ForgotPasswordForm()
     if not form.validate_on_submit():
         return render_template("forgot_password.html", form=form), 400
+
     user = User.query.filter_by(email=form.email.data.strip().lower()).first()
     msg = "If that email exists, we have sent a reset link."
     if not user:
         flash(msg, "info")
         return redirect(url_for("main.login"))
+
     token = getattr(current_app, "serializer").dumps(user.email, salt="pwd-reset")
     reset_url = url_for("main.reset_password", token=token, _external=True)
-    sent, err = send_mail(user.email, "Password reset",
-                          f"Use this link to reset your password: {reset_url}\nThis link expires in 1 hour.")
+
+    sent, err = send_mail(
+        user.email,
+        "Password reset",
+        f"Use this link to reset your password: {reset_url}\nThis link expires in 1 hour.",
+    )
     if sent:
         flash(msg, "info")
     else:
         flash(f"(Demo) Password reset link: {reset_url}", "info")
+
     try:
         log_event(actor=user.email, action="request_password_reset", target="USER", meta={"user_id": user.id})
     except Exception:
         pass
+
     return redirect(url_for("main.login"))
 
 @bp.get("/reset/<token>")
@@ -200,11 +211,13 @@ def reset_password_post(token):
     form = ResetPasswordForm()
     if not form.validate_on_submit():
         return render_template("reset_password.html", form=form, token=token), 400
+
     try:
         email = getattr(current_app, "serializer").loads(token, salt="pwd-reset", max_age=3600)
     except (BadSignature, SignatureExpired):
         flash("Reset link is invalid or expired.", "danger")
         return redirect(url_for("main.forgot_password"))
+
     user = User.query.filter_by(email=email).first_or_404()
     user.password_hash = generate_password_hash(form.password.data)
     db.session.commit()
@@ -212,5 +225,7 @@ def reset_password_post(token):
         log_event(actor=email, action="password_reset", target="USER", meta={"user_id": user.id})
     except Exception:
         pass
+
     flash("Your password has been updated. Please sign in.", "success")
     return redirect(url_for("main.login"))
+
