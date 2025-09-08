@@ -21,6 +21,10 @@ A Flask-based web application that digitizes internal passport applications and 
 \- Email notifications (SMTP)
 
 \- Basic filtering/reporting
+git pull
+git commit --allow-empty -m "chore: trigger Mend Bolt scan"
+git push
+
 
 
 
