@@ -14,7 +14,7 @@ csrf = CSRFProtect()
 
 def create_app():
     app = Flask(__name__, template_folder="../templates", static_folder="../static")
-    app.config["SECRET_KEY"] = "change-this"
+    app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "change-this")
     # absolute instance path + sqlite absolute uri
     base_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.abspath(os.path.join(base_dir, ".."))
