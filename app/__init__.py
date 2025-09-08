@@ -36,6 +36,23 @@ def create_app():
     from .models import User, Application, AuditLog
     with app.app_context():
         db.create_all()
+        # ---- auto-create admin from env (one-time) ----
+    from werkzeug.security import generate_password_hash
+    from .models import User, Role
+
+    admin_email = os.getenv("ADMIN_EMAIL")
+    admin_password = os.getenv("ADMIN_PASSWORD")
+    if admin_email and admin_password:
+        exists = User.query.filter_by(email=admin_email.strip().lower()).first()
+        if not exists:
+            u = User(
+                email=admin_email.strip().lower(),
+                password_hash=generate_password_hash(admin_password),
+                role=Role.ADMIN,
+                active=True,
+            )
+            db.session.add(u)
+            db.session.commit()
 
     from .routes import bp as main_bp
     from .admin import bp_admin
