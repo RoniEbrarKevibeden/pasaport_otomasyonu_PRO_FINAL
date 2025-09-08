@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg-info/
+dist/
+build/
+
+# Env & IDE
+venv/
+.env
+.env.*
+.vscode/
+.idea/
+
+# Flask / veritabaný
+instance/
+*.sqlite*
+*.db
+
+# OS
+.DS_Store
+Thumbs.db
