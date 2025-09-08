@@ -21,9 +21,6 @@ A Flask-based web application that digitizes internal passport applications and 
 \- Email notifications (SMTP)
 
 \- Basic filtering/reporting
-git pull
-git commit --allow-empty -m "chore: trigger Mend Bolt scan"
-git push
 
 
 
@@ -35,3 +32,5 @@ python -m venv .venv
 .\.venv\Scripts\activate    # Windows
 pip install -r requirements.txt
 python app.py               # or: set FLASK_APP=app.py && flask run
+
+trigger mend bolt
