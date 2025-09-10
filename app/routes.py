@@ -229,3 +229,36 @@ def reset_password_post(token):
     flash("Your password has been updated. Please sign in.", "success")
     return redirect(url_for("main.login"))
 
+# app/routes.py
+from .forms import LoginForm, ApplicationForm, ForgotPasswordForm, ResetPasswordForm, RegisterForm
+from werkzeug.security import check_password_hash, generate_password_hash
+from sqlalchemy.exc import IntegrityError
+
+@bp.route("/register", methods=["GET", "POST"])
+def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("main.dashboard"))
+
+    form = RegisterForm()
+    if form.validate_on_submit():
+        email = (form.email.data or "").strip().lower()
+        pwd_hash = generate_password_hash(form.password.data)
+
+        user = User(email=email, password_hash=pwd_hash, role=Role.CITIZEN, active=True)
+        db.session.add(user)
+        try:
+            db.session.commit()
+            try:
+                log_event(actor=email, action="user_registered", target="USER", meta={"email": email})
+            except Exception:
+                pass
+            flash("Your account has been created. You can log in.", "success")
+            return redirect(url_for("main.login"))
+        except IntegrityError:
+            db.session.rollback()
+            flash("This email is already registered.", "warning")
+        except Exception:
+            db.session.rollback()
+            flash("An error occurred during registration", "danger")
+
+    return render_template("register.html", form=form)
