@@ -27,3 +27,12 @@ class ForgotPasswordForm(FlaskForm):
 class ResetPasswordForm(FlaskForm):
     password = PasswordField("New Password", validators=[DataRequired(), Length(min=8, max=128)])
     submit = SubmitField("Set new password")
+
+from wtforms import StringField, PasswordField, SubmitField, BooleanField
+from wtforms.validators import DataRequired, Email, Length, EqualTo
+
+class RegisterForm(FlaskForm):
+    email = StringField("Email", validators=[DataRequired(), Email()])
+    password = PasswordField("Password", validators=[DataRequired(), Length(min=8, max=128)])
+    confirm = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("password")])
+    submit = SubmitField("Create account")
