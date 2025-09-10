@@ -16,6 +16,9 @@
     <form method="post">{{ form.csrf_token }}<input type="hidden" name="demo" value="citizen"><button class="btn-ghost">Sign in as Citizen (demo)</button></form>
     <form method="post">{{ form.csrf_token }}<input type="hidden" name="demo" value="officer"><button class="btn-ghost">Sign in as Officer (demo)</button></form>
     <form method="post">{{ form.csrf_token }}<input type="hidden" name="demo" value="admin"><button class="btn-ghost">Sign in as Admin (demo)</button></form>
+    <p style="margin-top:8px">Don't have an account? <a href="{{ url_for('main.register') }}">Register now</a></p>
   </div>
 </div>
 {% endblock %}
+
+
