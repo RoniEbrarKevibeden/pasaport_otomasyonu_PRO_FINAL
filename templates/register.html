@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="auth-card">
+  <div class="brand-inline"><span class="logo lg">🔷</span><span>Passport Automation</span></div>
+  <h1>Create account</h1>
+  <form method="post">
+    {{ form.csrf_token }}
+    <label>Email</label>{{ form.email(class_="inp", placeholder="you@example.com") }}
+    <label>Password</label>{{ form.password(class_="inp", placeholder="********") }}
+    <label>Confirm Password</label>{{ form.confirm(class_="inp", placeholder="********") }}
+    <button class="btn-primary" type="submit">{{ form.submit.label.text }}</button>
+  </form>
+  <p style="margin-top:12px">Do you already have an account? <a href="{{ url_for('main.login') }}">Sign in</a></p>
+</div>
+{% endblock %}
