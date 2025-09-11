@@ -1,187 +1,38 @@
-/* === Tokens / Renk Değişkenleri === */
-:root{
-  --bg:#0f1620;
-  --surface:#121a27;
-  --card:#17212f;
-  --border:#1f2a3a;
-  --muted:#9fb0c7;
 
-  --text:#e8f0ff;
-  --text-dim:#c2cbe0;
-
-  --primary:#6c63ff;
-  --primary-hover:#5b52ff;
-  --primary-active:#4c45e8;
-
-  --ok:#22c55e;
-  --warn:#f59e0b;
-  --danger:#ef4444;
-
-  --radius:14px;
-  --shadow:0 10px 28px rgba(0,0,0,.35);
-  --ring:0 0 0 3px rgba(108,99,255,.35);
-}
-
-/* Hareket duyarlılığı */
-@media (prefers-reduced-motion: reduce){
-  *{animation:none!important;transition:none!important;scroll-behavior:auto!important}
-}
-
-/* === Reset / Global === */
-*{box-sizing:border-box}
-html,body{height:100%}
-body{
-  margin:0;
-  background:var(--bg);
-  color:var(--text);
-  font:16px/1.5 ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;
-  -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-}
+:root{--bg:#0f1620;--card:#17212f;--muted:#9fb0c7;--text:#e8f0ff;--primary:#6c63ff;--ok:#22c55e;--warn:#f59e0b;--danger:#ef4444}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 ui-sans-serif,system-ui,Segoe UI,Roboto}
 a{color:#c7d2fe;text-decoration:none}
-a:hover{text-decoration:underline}
-
-.container{max-width:1100px;margin:30px auto;padding:0 16px}
-
-/* === Topbar === */
-.topbar{
-  display:flex;justify-content:space-between;align-items:center;
-  padding:14px 22px;background:#0b1320;
-  border-bottom:1px solid var(--border);
-  position:sticky;top:0;z-index:20;
-  backdrop-filter:saturate(130%) blur(8px);
-}
-.brand{display:flex;gap:10px;align-items:center;font-weight:700}
-.logo{filter:drop-shadow(0 1px 3px #0008)}
-.navlinks a{margin-left:16px;padding:8px 10px;border-radius:10px;display:inline-block}
-.navlinks a:hover{background:rgba(255,255,255,.05)}
-
-/* === Kartlar === */
-.card{
-  background:var(--card);
-  border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:20px 22px;
-  box-shadow:var(--shadow);
-  margin-bottom:18px;
-}
+.topbar{display:flex;justify-content:space-between;align-items:center;padding:14px 22px;background:#0b1320;border-bottom:1px solid #1f2a3a;position:sticky;top:0}
+.brand{display:flex;gap:10px;align-items:center;font-weight:700}.logo{filter:drop-shadow(0 1px 3px #0008)}
+.navlinks a{margin-left:16px}.container{max-width:1100px;margin:30px auto;padding:0 16px}
+.card{background:var(--card);border:1px solid #1f2a3a;border-radius:14px;padding:18px 20px;box-shadow:0 6px 20px #0004;margin-bottom:18px}
 .card.link{display:block}
-.card:hover{box-shadow:0 12px 34px rgba(0,0,0,.42)}
-
-/* === Grid Yardımcıları === */
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-.row{display:flex;gap:8px;align-items:center}
-.row-between{display:flex;justify-content:space-between;align-items:center;margin:10px 0}
-
-@media(max-width:720px){
-  .grid-2{grid-template-columns:1fr}
-}
-
-/* === Formlar === */
-label{display:block;margin:0 0 6px;color:var(--text-dim);font-size:.95rem}
-.inp, input, select, textarea{
-  width:100%;
-  padding:12px 14px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  background:#0f1a28;
-  color:var(--text);
-  outline:none;
-  transition:border-color .15s ease, box-shadow .15s ease, background .15s ease, transform .02s ease;
-}
+.inp{width:100%;padding:12px 14px;border-radius:10px;border:1px solid #2a364a;background:#0f1a28;color:var(--text)}
 .inp.sm{padding:8px 10px}
-input::placeholder, textarea::placeholder{color:#8796ad}
-input:focus, select:focus, textarea:focus{
-  border-color:var(--primary);
-  box-shadow:var(--ring);
-}
-.form-grid{display:grid;grid-template-columns:180px 1fr;gap:12px 14px}
-@media(max-width:720px){.form-grid{grid-template-columns:1fr}}
-
-/* === Auth Kartı & Login Formu Hizalama === */
-.auth-card{
-  max-width:560px;margin:40px auto;
-  background:var(--card);border:1px solid var(--border);
-  border-radius:16px;padding:22px 24px;box-shadow:var(--shadow);
-}
-.brand-inline{display:flex;align-items:center;gap:12px;margin-bottom:6px;font-size:20px;font-weight:700}
-.logo.lg{font-size:34px}
-
-/* Formu dikey hizala; elemanlar arası boşluk ver */
-.auth-card form{
-  display:flex;
-  flex-direction:column;
-  gap:12px;
-}
-
-/* Checkbox ve metnini hizala */
-.auth-card form .chk{
-  display:inline-flex;
-  align-items:center;
-  gap:8px;
-  margin:0;
-  color:var(--text-dim);
-}
-.auth-card form input[type="checkbox"]{
-  width:16px;height:16px;accent-color:var(--primary);cursor:pointer;
-}
-
-/* Butonu checkbox'un ALTINA indir ve SAĞA yasla */
-.auth-card form .btn-primary{
-  align-self:flex-end;   /* sola istersen: flex-start */
-  margin-top:4px;
-}
-
-/* === Butonlar === */
-button{font:inherit}
-.btn-primary{
-  display:inline-flex;align-items:center;justify-content:center;
-  background:linear-gradient(90deg,var(--primary),#8b5cf6);
-  border:1px solid transparent;
-  padding:12px 18px;border-radius:12px;color:#fff;font-weight:600;cursor:pointer;
-  box-shadow:0 8px 22px rgba(108,99,255,.28);
-  transition:background-color .15s ease, transform .02s ease, box-shadow .15s ease, filter .15s ease;
-}
-.btn-primary:hover{filter:saturate(110%); background:linear-gradient(90deg,var(--primary-hover),#7c5af3)}
-.btn-primary:active{transform:translateY(1px); background:linear-gradient(90deg,var(--primary-active),#6e4ff0)}
-.btn-primary:disabled, .btn-primary[disabled]{opacity:.6;cursor:not-allowed;box-shadow:none}
-
-.btn-ghost{
-  background:#273044;border:1px solid #3a4661;color:#e2e8f0;
-  border-radius:12px;padding:10px 14px;cursor:pointer;
-  transition:background-color .15s ease, border-color .15s ease;
-}
-.btn-ghost:hover{background:#2b3852;border-color:#55628a}
-
-/* Sağ hizalamak istersen kullanılabilir sarmalayıcı */
-.actions-right{display:flex;justify-content:flex-end}
-
-/* === Uyarılar === */
-.alert{
-  padding:12px;border-radius:12px;margin:12px 0;border:1px solid transparent;
-  background:#11322c;color:#a7f3d0;border-color:#1f4a3a;
-}
-.alert.success{background:rgba(34,197,94,.12);border-color:rgba(34,197,94,.35);color:#bbf7d0}
-.alert.warning{background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.35);color:#fde68a}
+.btn-primary{background:linear-gradient(90deg,#6c63ff,#8b5cf6);border:0;padding:12px 18px;border-radius:10px;color:#fff;font-weight:600;cursor:pointer; margin-top: 10px; margin-left: 297px;}
+.btn-ghost{background:#273044;border:1px solid #3a4661;color:#e2e8f0;border-radius:10px;padding:10px;cursor:pointer}
+.row{display:flex;gap:8px;align-items:center}.row-between{display:flex;justify-content:space-between;align-items:center;margin:10px 0}
+.alert{padding:12px;border-radius:10px;margin:12px 0;background:#11322c;color:#a7f3d0;border:1px solid #1f4a3a}
 .alert.danger{background:#3a1012;color:#fecaca;border-color:#572024}
-
-/* === Rozetler / Chip === */
+.tbl{width:100%;border-collapse:collapse}.tbl th,.tbl td{padding:12px;border-bottom:1px solid #253246}
 .badge{padding:6px 10px;border-radius:999px;font-size:12px}
-.badge.approved{background:#0e3a1f;color:#86efac}
-.badge.denied{background:#3b0a0a;color:#fecaca}
-.badge.secondary{background:#3a2a0e;color:#fde68a}
-.badge.pending{background:#112137;color:#c7d2fe}
+.badge.approved{background:#0e3a1f;color:#86efac}.badge.denied{background:#3b0a0a;color:#fecaca}.badge.secondary{background:#3a2a0e;color:#fde68a}.badge.pending{background:#112137;color:#c7d2fe}
+.actions form{display:inline}.chip{padding:8px 10px;border-radius:999px;border:0;cursor:pointer}.chip.ok{background:#063e24;color:#86efac}.chip.warn{background:#3a2a0e;color:#fde68a}.chip.danger{background:#3b0a0a;color:#fecaca}
+.auth-card{max-width:560px;margin:40px auto;background:var(--card);border:1px solid #1f2a3a;border-radius:16px;padding:20px 22px}
+.brand-inline{display:flex;align-items:center;gap:12px;margin-bottom:6px;font-size:20px;font-weight:700}.logo.lg{font-size:34px}
+.demo-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px}
+.hr-or{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--muted)}.hr-or:before,.hr-or:after{content:"";height:1px;background:#2a364a;flex:1}
+.form-grid{display:grid;grid-template-columns:180px 1fr;gap:12px 14px}
+@media(max-width:720px){.grid-2,.demo-grid,.form-grid{grid-template-columns:1fr}}
 
-.chip{padding:8px 10px;border-radius:999px;border:0;cursor:pointer}
-.chip.ok{background:#063e24;color:#86efac}
-.chip.warn{background:#3a2a0e;color:#fde68a}
-.chip.danger{background:#3b0a0a;color:#fecaca}
+.site-logo{height:45px;width:auto;}
 
-/* === Tablolar === */
-.tbl{width:100%;border-collapse:collapse;background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
-.tbl th,.tbl td{padding:12px;border-bottom:1px solid #253246;text-align:left}
-.tbl th{color:var(--text-dim);font-weight:600;background:#141d2b}
-.tbl tr:nth-child(even){background:#131c2a}
-.tbl tr:hover{background:#162235}
+button, .btn {
+    transition: all 0.3s ease-in-out;
+}
 
-/* === Görseller === */
-.site-logo{height:45px;width:auto}
+button:hover, .btn:hover {
+    box-shadow: 0 0 15px currentColor;
+    transform: scale(1.05);
+}
